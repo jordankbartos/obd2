@@ -1,0 +1,48 @@
+# Python bytecode and cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Logs
+*.log
+logs/
+nohup.out
+
+# Data files
+*.csv
+*.db
+*.sqlite
+*.sqlite3
+data/
+*.json
+
+# VS Code files
+.vscode/
+*.code-workspace
+
+# SSH Configs & Secrets
+.ssh/
+id_rsa*
+id_ed25519*
+*.pem
+*.key
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Temporary & Swap files
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# OS-Specific Files
+*.orig
+*~
