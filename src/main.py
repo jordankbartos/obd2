@@ -24,13 +24,13 @@ if __name__ == "__main__":
         logger.info("Keyboard Interrupt detected, finalizing Data Collection")
         data_manager.finalize()
     except Exception:
-        logger.exception("Unexpected error occured {e}.")
+        logger.exception(f"Unexpected error occured {e}.")
         logger.info("Attempting to save unsaved data before exiting...")
         try:
             data_manager.finalize()
             logger.info("Successfully finalized data")
-        except Exception:
-            logger.exception("Could not finalize data due to error {e}.")
+        except Exception as e:
+            logger.exception(f"Could not finalize data due to error {e}.")
     finally:
         logger.info("Shutting down connection")
         connection.stop()
