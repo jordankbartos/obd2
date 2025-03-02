@@ -46,3 +46,6 @@ Thumbs.db
 # OS-Specific Files
 *.orig
 *~
+
+# Temp Data Files
+*.parquet

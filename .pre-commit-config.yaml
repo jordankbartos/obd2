@@ -1,0 +1,28 @@
+repos:
+  # Black - Python Code Formatter
+  - repo: https://github.com/psf/black
+    rev: 25.1.0  # Use latest stable version
+    hooks:
+      - id: black
+        language_version: python3
+        args: ["--line-length", "100"]
+
+  # isort - Sorts Python imports
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        args: ["--profile", "black"]
+
+  # autoflake - Removes unused imports and variables
+  - repo: https://github.com/myint/autoflake
+    rev: v2.3.1
+    hooks:
+      - id: autoflake
+        args: ["--remove-all-unused-imports", "--remove-unused-variables", "--expand-star-imports", "--in-place"]
+
+  # ShellCheck - Lints shell scripts
+  - repo: https://github.com/koalaman/shellcheck-precommit
+    rev: v0.10.0
+    hooks:
+      - id: shellcheck

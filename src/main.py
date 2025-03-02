@@ -1,26 +1,30 @@
-import obd
-import logging
+from config import (
+    COMMANDS,
+    CONNECTION_KWARGS,
+    OBDII_PORTSTR,
+    REFRESH_PERIOD_S,
+    WRITER_MODE,
+)
+from logger_cfg import get_logger
+from obd_data import DataManager, get_writer
+from utils import get_connection
 
-logging.basicConfig(level="DEBUG")
+logger = get_logger(__name__)
 
-logger = logging.getLogger(__name__)
 
-# Attempt to connect to OBD-II adapter
-logging.debug("Connecting to OBD-II device...")
-connection = obd.OBD("/dev/ttyUSB0")  # Change if your port is different
+if __name__ == "__main__":
 
-if connection.is_connected():
-    logging.debug("✅ Successfully connected to OBD-II!")
-    
-    # Try reading vehicle temperature
-    temp = connection.query(obd.commands.COOLANT_TEMP)
-    
-    if temp is not None and temp.value is not None:
-        logging.debug(f"🚗 Vehicle Temp: {temp.value} km/h")
-    else:
-        logging.debug("⚠ Unable to read temperature. Is the engine running?")
-else:
-    logging.debug("❌ Failed to connect to OBD-II. Check your adapter and port.")
+    connection = get_connection(OBDII_PORTSTR, **CONNECTION_KWARGS)
+    writer = get_writer(WRITER_MODE)
+    data_manager = DataManager(connection=connection, commands=COMMANDS, writer=writer)
 
-# Close connection
-connection.close()
+    try:
+        data_manager.run(refresh_period=REFRESH_PERIOD_S)
+    except KeyboardInterrupt:
+        logger.info("Keyboard Interrupt detected, finalizing Data Collection")
+        data_manager.finalize()
+    finally:
+        logger.info("Shutting down connection")
+        connection.stop()
+        connection.close()
+        logger.info("Connection closed successfully")
