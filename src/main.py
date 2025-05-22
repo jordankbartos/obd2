@@ -5,8 +5,8 @@ from config import (
     REFRESH_PERIOD_S,
     WRITER_MODE,
 )
-from logger_cfg import get_logger
-from obd_data import DataManager, get_writer
+from logger_cfg import get_logger, get_writer
+from obd_data import DataManager
 from utils import get_connection
 
 logger = get_logger(__name__)

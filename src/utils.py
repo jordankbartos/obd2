@@ -1,6 +1,7 @@
 import obd
 
 from logger_cfg import get_logger
+from obd_data import PandasParquetWriter
 
 logger = get_logger(__name__)
 
@@ -32,3 +33,12 @@ def get_connection(portstr: str, **kwargs) -> obd.Async:
         )
     logger.debug("Connected to OBD-II Successfully")
     return connection
+
+
+def get_writer(writer_mode):
+    if writer_mode == "pandas":
+        return PandasParquetWriter()
+    else:
+        raise ValueError(
+            "Invalid writer_mode received: Got: '{writer_mode}'. Valid options are ['pandas']"
+        )
