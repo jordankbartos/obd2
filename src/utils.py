@@ -29,7 +29,7 @@ def get_connection(portstr: str, **kwargs) -> obd.Async:
     connection = obd.Async(portstr, **kwargs)  # Adjust if necessary
     if not connection.is_connected():
         raise RuntimeError(
-            "Failed to connect to OBD-II via '{portstr}'. Check your adapter and port."
+            f"Failed to connect to OBD-II via '{portstr}'. Check your adapter and port."
         )
     logger.debug("Connected to OBD-II Successfully")
     return connection

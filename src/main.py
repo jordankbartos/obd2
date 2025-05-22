@@ -5,18 +5,22 @@ from config import (
     REFRESH_PERIOD_S,
     WRITER_MODE,
 )
-from logger_cfg import get_logger, get_writer
+from logger_cfg import get_logger
 from obd_data import DataManager
-from utils import get_connection
+from utils import get_connection, get_writer
 
 logger = get_logger(__name__)
 
 
 if __name__ == "__main__":
 
-    connection = get_connection(OBDII_PORTSTR, **CONNECTION_KWARGS)
-    writer = get_writer(WRITER_MODE)
-    data_manager = DataManager(connection=connection, commands=COMMANDS, writer=writer)
+    try:
+        connection = get_connection(OBDII_PORTSTR, **CONNECTION_KWARGS)
+        writer = get_writer(WRITER_MODE)
+        data_manager = DataManager(connection=connection, commands=COMMANDS, writer=writer)
+    except Exception:
+        logger.exception("Initialization failed")
+        raise
 
     try:
         data_manager.run(refresh_period=REFRESH_PERIOD_S)

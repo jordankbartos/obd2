@@ -1,6 +1,6 @@
 import time
 from abc import ABC, abstractmethod
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 import numpy as np
@@ -55,7 +55,8 @@ class PandasParquetWriter(Writer):
         dfs = [self._get_cmd_data_df(command_obj) for command_obj in command_objs]
 
         df = self._get_combined_df(dfs)
-        file_path = f"obd_log_{self._write_count}.parquet"
+        timestamp = datetime.now(tz=timezone.utc).strftime("%Y-%m-%d--%H%M%S")
+        file_path = f"data/obd_log_{timestamp}.parquet"
         self._write_parquet_file(df, file_path)
         self._clear_command_objs(command_objs)
 

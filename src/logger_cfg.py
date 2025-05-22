@@ -7,9 +7,9 @@ from pathlib import Path
 
 from config import LOG_FILE, LOG_FMT, LOG_LEVEL
 
-_log_file = Path(LOG_FILE)
-if not _log_file.exists():
-    _log_file.parent.mkdir(parents=True, exist_ok=True)
+_LOG_FILE_ = Path(LOG_FILE).expanduser()
+if not _LOG_FILE_.exists():
+    _LOG_FILE_.parent.mkdir(parents=True, exist_ok=True)
 
 _log_queue = queue.Queue()
 
@@ -17,7 +17,7 @@ _formatter = logging.Formatter(LOG_FMT)
 
 
 def _log_listener(queue):
-    file_handler = logging.FileHandler(LOG_FILE)
+    file_handler = logging.FileHandler(_LOG_FILE_)
     file_handler.setLevel(LOG_LEVEL)
     file_handler.setFormatter(_formatter)
 
